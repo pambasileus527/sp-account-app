@@ -22,7 +22,7 @@ function shell({ back, title, lead, body, button, above }) {
 function wire({ onBack, onSubmit }) {
   const form = app.querySelector('form');
   const err = app.querySelector('.error');
-  const btn = form.querySelector('.ios-btn');
+  const btn = form.querySelector('button.ios-btn');
   const input = form.querySelector('input');
   if (onBack) app.querySelector('#back').addEventListener('click', onBack);
   if (input && btn) {

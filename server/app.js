@@ -28,7 +28,8 @@ const mask = (email) => {
 };
 
 export function createApp(opts = {}) {
-  const { dbFile = ':memory:', domain = 'muscat.example', provisioner = localProvisioner, cookieSecure = false, rateLimitScale = 1 } = opts;
+  const { dbFile = ':memory:', domain = 'muscat.example', provisioner = localProvisioner, cookieSecure = false, rateLimitScale = 1, adminAddresses = [] } = opts;
+  const admins = new Set(adminAddresses.map((a) => String(a).trim().toLowerCase()).filter(Boolean).map((a) => (a.includes('@') ? a : `${a}@${domain}`)));
   let { secret } = opts;
   if (!secret) {
     secret = crypto.randomBytes(32).toString('hex');
@@ -106,6 +107,14 @@ export function createApp(opts = {}) {
     const { active } = getSession(req);
     if (active == null) throw new HttpError(401, 'サインインしてください。');
     return getUserById.get(active);
+  }
+
+  function requireAdmin(req) {
+    if (!admins.size) throw new HttpError(404, 'ページが見つかりません。');
+    limit(req, 'admin', 60);
+    const me = activeUser(req);
+    if (!admins.has(me.address)) throw new HttpError(403, 'このアカウントには管理の権限がありません。');
+    return me;
   }
 
   function completeSignin(req, res, user) {
@@ -218,6 +227,21 @@ export function createApp(opts = {}) {
         id: row.id, from: row.from_name, fromAddress: row.from_addr, subject: row.subject,
         body: row.body, receivedAt: row.received_at,
       });
+    }
+
+    // 管理用: 登録済みアカウントの一覧（ADMIN_ADDRESSES に入っているアカウントでサインイン中のときだけ。パスワードは含めない）
+    if (method === 'GET' && pathname === '/api/admin/users') {
+      requireAdmin(req);
+      const rows = db.prepare(
+        `SELECT u.id, u.sei, u.mei, u.address, u.contact_email, u.created_at,
+           (SELECT COUNT(*) FROM mails m WHERE m.user_id = u.id) AS mails,
+           (SELECT COUNT(*) FROM mails m WHERE m.user_id = u.id AND m.unread = 1) AS unread
+         FROM users u ORDER BY u.id DESC`,
+      ).all();
+      return sendJson(res, 200, rows.map((r) => ({
+        id: r.id, name: `${r.sei} ${r.mei}`, address: r.address, contact: r.contact_email,
+        createdAt: r.created_at, mails: r.mails, unread: r.unread,
+      })));
     }
 
     if (method !== 'POST') throw new HttpError(404, 'ページが見つかりません。');
@@ -333,6 +357,16 @@ export function createApp(opts = {}) {
       db.prepare('UPDATE users SET pw_hash = ? WHERE id = ?').run(hashPassword(body.password), row.user_id);
       db.prepare('UPDATE codes SET used = 1 WHERE ticket = ?').run(row.ticket);
       return completeSignin(req, res, getUserById.get(row.user_id));
+    }
+
+    if (pathname === '/api/admin/delete') {
+      const me = requireAdmin(req);
+      const target = getUserById.get(body.id);
+      if (!target) throw new HttpError(404, 'アカウントが見つかりません。');
+      if (target.id === me.id) throw new HttpError(400, 'サインイン中の自分自身は削除できません。');
+      db.prepare('DELETE FROM codes WHERE user_id = ?').run(target.id);
+      db.prepare('DELETE FROM users WHERE id = ?').run(target.id); // メールは外部キーで一緒に消える
+      return sendJson(res, 200, { ok: true });
     }
 
     if (pathname === '/api/switch') {

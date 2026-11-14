@@ -60,3 +60,13 @@ test/     APIのテスト
 - `SESSION_SECRET` を長いランダムな値にする（`.env.example` を参照）。HTTPSで公開するときは `COOKIE_SECURE=1`。
 - 回数制限はメモリ上なので、複数台にするときは置き場所を変える。
 - 未実装: パスキー、メールを書く画面、スター・送信済み・下書き、メールの受信（いまのメールは「ようこそ」の1通だけ）。
+
+## 登録済みアカウントの一覧（管理画面）
+
+顧客画面（`/`）とは別に、管理者は次の手順で作ります。
+
+1. `.env` に `ADMIN_ADDRESSES=nanashi` と書いて `docker compose up -d --build`。
+2. `docker compose exec app node server/create-admin.js nanashi` でアカウントを作り、パスワードを決める（再実行するとパスワードの設定し直し）。
+3. `http://localhost:3000/admin/` を開き、そのアドレスとパスワードでサインイン。
+
+一覧にパスワードは出ません。`ADMIN_ADDRESSES` が空なら管理画面は無効です。

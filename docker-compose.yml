@@ -10,6 +10,8 @@ services:
     environment:
       SESSION_SECRET: ${SESSION_SECRET:-dev-only-change-me}
       MAIL_DOMAIN: ${MAIL_DOMAIN:-muscat.example}
+      # 管理画面（/admin/）に入れるアカウント（カンマ区切り。例: nanashi,admin2）。空なら管理画面は無効
+      ADMIN_ADDRESSES: ${ADMIN_ADDRESSES:-}
       SMTP_HOST: mailpit
       SMTP_PORT: "1025"
       DB_FILE: /app/data/app.db

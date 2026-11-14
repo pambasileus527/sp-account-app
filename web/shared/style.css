@@ -184,3 +184,19 @@ h2.big { margin: 0; font-size: 28px; line-height: 1.3; }
 
 .ios-btn.outline { display: flex; align-items: center; justify-content: center; background: #fff; border: 2px solid var(--accent); color: var(--accent); text-decoration: none; }
 .ios-btn.outline:hover { background: #f1f8f8; color: var(--accent-d); }
+
+/* 管理画面 */
+#app.wide { max-width: 1000px; }
+.admin { padding: 40px 24px 32px; display: flex; flex-direction: column; gap: 16px; }
+.admin-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.admin-bar h1 { margin: 0; font-size: 22px; }
+.admin-bar .btn { width: auto; padding: 0 20px; height: 44px; }
+.muted { color: var(--sub); font-weight: 400; font-size: 0.8em; }
+.tablewrap { overflow-x: auto; background: #fff; border-radius: 14px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--line2); white-space: nowrap; }
+th { font-size: 12px; color: var(--sub); font-weight: 500; background: #fafcfc; }
+td.num { font-variant-numeric: tabular-nums; }
+
+.btn-del { font: inherit; font-size: 13px; padding: 6px 12px; border-radius: 8px; border: 1px solid #d9b4b4; background: #fff; color: #b3261e; cursor: pointer; }
+.btn-del.armed { background: #b3261e; border-color: #b3261e; color: #fff; }

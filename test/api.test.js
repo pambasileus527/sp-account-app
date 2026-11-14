@@ -178,3 +178,41 @@ test('回数制限: 続けてサインインに失敗すると止まる', async 
   assert.equal(statuses[0], 401);
   assert.equal(statuses.at(-1), 429);
 });
+
+test('管理画面のAPI: 管理者アカウントでサインイン中のときだけ一覧が返り、パスワードは含まれない。設定がなければ無効', async () => {
+  const withAdmin = createApp({ dbFile: ':memory:', secret: 's', domain: 'muscat.example', adminAddresses: ['boss1'], rateLimitScale: 1000 });
+  await new Promise((r) => withAdmin.listen(0, '127.0.0.1', r));
+  const url = `http://127.0.0.1:${withAdmin.address().port}`;
+  const make = async (local, contact) => {
+    const r = await fetch(`${url}/api/signup`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(person({ local, contact })),
+    });
+    return (r.headers.getSetCookie?.() || []).map((c) => c.split(';')[0]).join('; ');
+  };
+  const boss = await make('boss1', 'a@example.com');
+  const other = await make('guest1');
+  assert.equal((await fetch(`${url}/api/admin/users`)).status, 401);
+  assert.equal((await fetch(`${url}/api/admin/users`, { headers: { Cookie: other } })).status, 403);
+  const ok = await fetch(`${url}/api/admin/users`, { headers: { Cookie: boss } });
+  assert.equal(ok.status, 200);
+  const text = await ok.text();
+  const list = JSON.parse(text);
+  assert.equal(list.length, 2);
+  assert.ok(list.some((u) => u.address === 'boss1@muscat.example' && u.contact === 'a@example.com'));
+  assert.ok(!/pw_hash|scrypt|password/i.test(text));
+  // 削除: 管理者だけができ、自分自身は消せない。消すとメールも一緒に消える
+  const guestId = list.find((u) => u.address === 'guest1@muscat.example').id;
+  const bossId = list.find((u) => u.address === 'boss1@muscat.example').id;
+  const del = (cookie, id) => fetch(`${url}/api/admin/delete`, { method: 'POST', headers: { 'Content-Type': 'application/json', Cookie: cookie }, body: JSON.stringify({ id }) });
+  assert.equal((await del(other, guestId)).status, 403);
+  assert.equal((await del(boss, bossId)).status, 400);
+  assert.equal((await del(boss, guestId)).status, 200);
+  assert.equal((await del(boss, guestId)).status, 404);
+  const after = await (await fetch(`${url}/api/admin/users`, { headers: { Cookie: boss } })).json();
+  assert.deepEqual(after.map((u) => u.address), ['boss1@muscat.example']);
+  assert.equal((await fetch(`${url}/api/mails`, { headers: { Cookie: other } })).status, 401);
+  withAdmin.close();
+  // 管理者の指定がないサーバーでは存在しない扱い
+  assert.equal((await fetch(`${base}/api/admin/users`, { headers: { Cookie: boss } })).status, 404);
+});

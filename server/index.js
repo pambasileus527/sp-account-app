@@ -6,6 +6,7 @@ const server = createApp({
   secret: process.env.SESSION_SECRET,
   domain: process.env.MAIL_DOMAIN || 'muscat.example',
   cookieSecure: process.env.COOKIE_SECURE === '1',
+  adminAddresses: (process.env.ADMIN_ADDRESSES || '').split(','),
 });
 server.listen(port, '0.0.0.0', () => {
   console.log(`listening on http://localhost:${port}`);
