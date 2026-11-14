@@ -8,11 +8,13 @@
 backend/
   app/        main.py（起動・エラー整形・本番の画面配信）、routes.py（API）、core.py（セッション・回数制限・確認コード）、
               validate.py（入力チェック）、security.py（ハッシュ・署名）、mailer.py（メール送信）、
-              provision.py（メールボックス作成の差し込み口）、create_admin.py（管理者を作る）
+              provision.py（メールボックス作成の差し込み口）、create_admin.py（管理者を作る）、
+              video.py（YouTube動画の検索。キーが空ならサンプル）
   tests/      pytest
 frontend/
   src/        api.ts、me.tsx（サインイン状態）、ui.tsx、icons.tsx、style.css
-  src/pages/  Home.tsx（ホーム）、Settings.tsx（設定アプリ）、Mail.tsx（メールアプリ）、Admin.tsx（管理画面）
+  src/pages/  Home.tsx（ホーム）、Settings.tsx（設定アプリ）、Mail.tsx（メールアプリ）、
+              Video.tsx（ビデオアプリ）、Browser.tsx（ブラウザ）、Admin.tsx（管理画面）
 Dockerfile    本番用（画面をビルドして、サーバーから一緒に配る）
 ```
 

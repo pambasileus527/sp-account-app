@@ -16,6 +16,7 @@ class Settings:
     smtp_port: int = 25
     mail_from: str = "no-reply@muscat.example"
     static_dir: str = ""  # 本番で、ビルドした画面（frontend/dist）をここから配る
+    youtube_api_key: str = ""  # 空なら、ビデオアプリはサンプルを表示する
     debug: bool = False
 
     @classmethod
@@ -31,5 +32,6 @@ class Settings:
             smtp_port=int(e.get("SMTP_PORT", "25")),
             mail_from=e.get("MAIL_FROM", "no-reply@muscat.example"),
             static_dir=e.get("STATIC_DIR", ""),
+            youtube_api_key=e.get("YOUTUBE_API_KEY", ""),
             debug=e.get("DEBUG") == "1",
         )

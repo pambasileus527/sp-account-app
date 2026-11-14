@@ -15,6 +15,7 @@
 | [setup.md](documents/setup.md) | 動かし方・URL・テスト |
 | [flow.md](documents/flow.md) | 画面の流れと、決めたこと |
 | [architecture.md](documents/architecture.md) | 作り・フォルダ構成 |
+| [video.md](documents/video.md) | ビデオとブラウザ（YouTubeのキーの設定） |
 | [pwa.md](documents/pwa.md) | アプリとしてインストールする（開発用と本番用の違い） |
 | [production.md](documents/production.md) | 本番にするときの残りの作業 |
 | [admin.md](documents/admin.md) | 管理画面（アカウントの一覧・削除） |

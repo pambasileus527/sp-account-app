@@ -43,3 +43,15 @@ export interface AdminUser {
 }
 
 export type SigninResult = { ok: true } | { needCode: true; ticket: string; hint: string };
+
+export interface VideoItem {
+  id: string;
+  title: string;
+  channel: string;
+  thumb: string;
+}
+
+export interface VideoResult {
+  sample: boolean;
+  items: VideoItem[];
+}

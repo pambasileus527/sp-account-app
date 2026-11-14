@@ -292,6 +292,15 @@ def signout(
     return {"ok": True}
 
 
+@router.get("/video/search")
+def video_search(
+    request: Request, q: str = "", ctx: Ctx = Depends(get_ctx), db: sqlite3.Connection = Depends(get_db),
+):
+    ctx.active_user(db, request)  # サインインしている人だけ（YouTubeの利用枠を守る）
+    ctx.limit(request, "video", 30)
+    return request.app.state.video.search(q)
+
+
 @router.api_route("/{rest:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"], include_in_schema=False)
 def not_found(rest: str):
     raise ApiError(404, "ページが見つかりません。")

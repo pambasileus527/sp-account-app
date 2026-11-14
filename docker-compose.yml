@@ -12,6 +12,8 @@ services:
       MAIL_DOMAIN: ${MAIL_DOMAIN:-muscat.example}
       # 管理画面（/admin）に入れるアカウント（カンマ区切り。例: nanashi,admin2）。空なら管理画面は無効
       ADMIN_ADDRESSES: ${ADMIN_ADDRESSES:-}
+      # ビデオアプリ用のYouTube Data APIキー。空なら、サンプルの動画を表示する
+      YOUTUBE_API_KEY: ${YOUTUBE_API_KEY:-}
       SMTP_HOST: mailpit
       SMTP_PORT: "1025"
       DB_FILE: /data/app.db

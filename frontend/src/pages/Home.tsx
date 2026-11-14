@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api';
-import { AppGearIcon, AppMailIcon, BackIcon, MailIcon } from '../icons';
+import { AppBrowserIcon, AppGearIcon, AppMailIcon, AppVideoIcon, BackIcon, MailIcon } from '../icons';
 import { useMe } from '../me';
 import { ErrorLine, useAction, useToast } from '../ui';
 import type { SigninResult } from '../types';
@@ -172,6 +172,14 @@ function HomeApps() {
         <Link className="app" to="/mail">
           <span className="tile app-mail"><AppMailIcon /></span>
           <span className="label">メール</span>
+        </Link>
+        <Link className="app" to="/video">
+          <span className="tile app-video"><AppVideoIcon /></span>
+          <span className="label">ビデオ</span>
+        </Link>
+        <Link className="app" to="/browser">
+          <span className="tile app-web"><AppBrowserIcon /></span>
+          <span className="label">ブラウザ</span>
         </Link>
       </nav>
     </div>

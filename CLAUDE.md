@@ -12,4 +12,5 @@ README.md を先に読むこと。ここには、変えないでほしい決め�
 - ログインの失敗は、アドレスが無いのかパスワードが違うのかを区別して返さない。
 - 「メールボックスを作る」処理は `backend/app/provision.py` に隔離している。ここ以外にMailcowの知識を置かない。
 - 管理画面は `/admin`（`GET /api/admin/users`, `POST /api/admin/delete`）。`ADMIN_ADDRESSES` のアカウントでサインイン中のときだけ。空なら 404。パスワード関連の列は絶対に返さない。管理者は `python -m app.create_admin` で作り、顧客画面からは作らない。
+- ビデオアプリ（`Video.tsx`, `backend/app/video.py`）: YouTubeはサーバー経由で呼ぶ。キーは `YOUTUBE_API_KEY` だけに置き、画面・ログ・エラーに出さない。再生は公式の埋め込み（`youtube-nocookie.com`）だけ。ダウンロード、広告除去、プレーヤーの改変は作らない。CSPで外から許可するのは `i.ytimg.com` と `www.youtube-nocookie.com` だけ。
 - 変更したら、サーバーは `pytest`、画面は `npm run typecheck`。テストは通信なしで動く。

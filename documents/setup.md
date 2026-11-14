@@ -9,6 +9,8 @@ docker compose up --build
 | ホーム（サインイン前はサインイン画面、サインイン後は2つのアプリの入口） | http://localhost:3000 |
 | 設定アプリ（サインイン、アドレス作成） | http://localhost:3000/settings |
 | メールアプリ | http://localhost:3000/mail |
+| ビデオアプリ（キーが空ならサンプル） | http://localhost:3000/video |
+| ブラウザ（Google検索を開く） | http://localhost:3000/browser |
 | 管理画面（登録済みアカウントの一覧・削除） | http://localhost:3000/admin |
 | APIの文書（開発用） | http://localhost:8000/api/docs |
 | 偽メールサーバーの受信箱（確認コードはここに届く） | http://localhost:8025 |

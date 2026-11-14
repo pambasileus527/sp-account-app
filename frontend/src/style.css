@@ -211,3 +211,36 @@ td.num { font-variant-numeric: tabular-nums; }
 .app .label { font-size: 11px; line-height: 1.2; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
 .tile.app-mail { background: #2f80ed; }
 .tile.app-gear { background: #6b7780; }
+.tile.app-video { background: #e8643c; }
+.tile.app-web { background: #1f9d8a; }
+
+/* ビデオ・ブラウザ: 濃い紫の画面 */
+.vapp { min-height: 100dvh; background: #2b1763; color: #fff; padding-bottom: 32px; }
+.vbar { display: flex; align-items: center; padding: 56px 14px 6px; position: relative; justify-content: center; min-height: 100px; }
+.vbar h1 { margin: 0; font-size: 17px; font-weight: 600; color: #fff; }
+.vback { position: absolute; left: 10px; bottom: 10px; display: flex; align-items: center; gap: 2px; color: #fff; text-decoration: none; font-size: 15px; }
+.vback:hover { color: #fff; }
+.vsearch { padding: 6px 14px 10px; }
+.vsearch input { display: block; width: 100%; height: 40px; border: none; border-radius: 10px; background: rgba(255, 255, 255, 0.16); color: #fff; font-size: 15px; padding: 0 12px; font-family: inherit; }
+.vsearch input::placeholder { color: rgba(255, 255, 255, 0.7); }
+.vnote { margin: 0; padding: 6px 16px; font-size: 12px; color: rgba(255, 255, 255, 0.75); }
+.vmsg { margin: 0; padding: 28px 20px; text-align: center; font-size: 14px; color: rgba(255, 255, 255, 0.85); }
+.vlist { list-style: none; margin: 0; padding: 0; }
+.vrow { display: flex; gap: 12px; align-items: center; padding: 8px 14px; text-decoration: none; color: #fff; }
+.vrow:hover { color: #fff; background: rgba(255, 255, 255, 0.06); }
+.vthumb { position: relative; flex: none; width: 128px; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; background: #6b7780; }
+.vthumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.vthumb.k0 { background: #1f9d8a; }
+.vthumb.k1 { background: #d8553a; }
+.vthumb.k2 { background: #2f80ed; }
+.vthumb.k3 { background: #8a45d6; }
+.vthumb.k4 { background: #6b7780; }
+.vtext { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.vtitle { font-size: 14px; font-weight: 500; line-height: 1.4; overflow-wrap: anywhere; }
+.vchan { font-size: 12px; color: rgba(255, 255, 255, 0.72); }
+.vplayer { aspect-ratio: 16 / 9; background: #14082e; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+.vplayer iframe { width: 100%; height: 100%; border: 0; }
+.vplayer p { margin: 0; color: rgba(255, 255, 255, 0.8); }
+.vinfo { padding: 14px 16px; }
+.vinfo h2 { margin: 0 0 4px; font-size: 16px; line-height: 1.5; color: #fff; }
+.vinfo p { margin: 0; font-size: 13px; color: rgba(255, 255, 255, 0.75); }

@@ -15,11 +15,16 @@ from .db import init_db
 from .errors import ApiError
 from .provision import LocalProvisioner, Provisioner
 from .routes import router
+from .video import VideoService
 
 log = logging.getLogger("muscat")
 
 # 本番で画面も一緒に配るときの方針。インラインのスクリプトとスタイルは使わない。
-CSP = "default-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+# 動画のサムネイル（i.ytimg.com）と、公式の埋め込みプレーヤー（youtube-nocookie.com）だけを外から許可する
+CSP = (
+    "default-src 'self'; img-src 'self' data: https://i.ytimg.com; frame-src https://www.youtube-nocookie.com; "
+    "frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+)
 
 
 def create_app(settings: Settings | None = None, provisioner: Provisioner | None = None) -> FastAPI:
@@ -41,6 +46,7 @@ def create_app(settings: Settings | None = None, provisioner: Provisioner | None
         openapi_url="/api/openapi.json" if settings.debug else None,
         redoc_url=None,
     )
+    app.state.video = VideoService(settings.youtube_api_key)
     app.state.ctx = Ctx(settings=settings, secret=secret, provisioner=provisioner or LocalProvisioner(), admins=admins)
 
     @app.exception_handler(ApiError)

@@ -71,3 +71,21 @@ export const AppMailIcon = () => (
     <path d="M15 22l17 13.5L49 22" fill="none" stroke="#2f80ed" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
+
+export const BackWhiteIcon = () => <Svg size={20} color="#fff"><path d="M15 5l-7 7 7 7" /></Svg>;
+
+export const AppVideoIcon = () => (
+  <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
+    <path d="M25 19.5v25a2 2 0 0 0 3 1.7l21-12.5a2 2 0 0 0 0-3.4L28 17.8a2 2 0 0 0-3 1.7z" fill="#fff" />
+  </svg>
+);
+
+export const AppBrowserIcon = () => (
+  <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
+    <g fill="none" stroke="#fff" strokeWidth="3.6" strokeLinecap="round">
+      <circle cx="32" cy="32" r="19" />
+      <ellipse cx="32" cy="32" rx="8.5" ry="19" />
+      <path d="M13 32h38" />
+    </g>
+  </svg>
+);
