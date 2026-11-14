@@ -14,8 +14,8 @@ WORKDIR /app
 COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 RUN useradd -u 1000 -m app && mkdir -p /data && chown app /data
-COPY backend/ .
-COPY --from=web /web/dist /app/static
+COPY --chmod=a+rX backend/ .
+COPY --from=web --chmod=a+rX /web/dist /app/static
 USER app
 EXPOSE 8000
 CMD ["uvicorn", "app.main:factory", "--factory", "--host", "0.0.0.0", "--port", "8000"]
