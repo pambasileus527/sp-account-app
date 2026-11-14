@@ -2,8 +2,8 @@ import { useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api';
-import { BackIcon, GearIcon, MailIcon } from '../icons';
-import { activeAccount, useMe } from '../me';
+import { AppGearIcon, AppMailIcon, BackIcon, MailIcon } from '../icons';
+import { useMe } from '../me';
 import { ErrorLine, useAction, useToast } from '../ui';
 import type { SigninResult } from '../types';
 
@@ -160,31 +160,20 @@ function SignIn() {
   );
 }
 
+/** サインイン後のホーム: iPhoneのホーム画面のように、アプリを並べるだけ */
 function HomeApps() {
-  const { me, refresh } = useMe();
-  const a = activeAccount(me);
-  const { run } = useAction();
-  if (!a) return null;
   return (
-    <div className="home">
-      <div>
-        <h1>こんにちは、{a.name}さん</h1>
-        <p>{a.address}<br />設定アプリとメールアプリは別のアプリです。</p>
-      </div>
-      <div className="icons">
-        <Link className="appicon" to="/settings"><span className="tile c-gray"><GearIcon /></span>設定</Link>
-        <Link className="appicon" to="/mail"><span className="tile c-teal"><MailIcon size={40} color="#fff" /></span>メール</Link>
-      </div>
-      <div className="spacer" />
-      <button
-        className="btn danger" type="button"
-        onClick={() => run(async () => {
-          await api('/signout', {});
-          await refresh();
-        })}
-      >
-        サインアウト
-      </button>
+    <div className="homescreen">
+      <nav className="grid" aria-label="アプリ">
+        <Link className="app" to="/settings">
+          <span className="tile app-gear"><AppGearIcon /></span>
+          <span className="label">設定</span>
+        </Link>
+        <Link className="app" to="/mail">
+          <span className="tile app-mail"><AppMailIcon /></span>
+          <span className="label">メール</span>
+        </Link>
+      </nav>
     </div>
   );
 }

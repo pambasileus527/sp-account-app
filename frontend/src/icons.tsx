@@ -47,12 +47,27 @@ export const SentIcon = ({ color }: IconProps) => (
   <Svg size={24} color={color}><path d="M21 3L10 14" /><path d="M21 3l-7 18-4-7-7-4z" /></Svg>
 );
 export const DraftIcon = ({ color }: IconProps) => <Svg size={24} color={color}><path d="M5 19l1-4L16 5l3 3L9 18z" /></Svg>;
-export const GearIcon = () => (
-  <Svg size={40} color="#fff">
-    <circle cx="12" cy="12" r="3" />
-    <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" />
-  </Svg>
-);
 export const GuestIcon = () => (
   <svg width="40" height="40" viewBox="0 0 24 24" fill="#7fa9ad" aria-hidden="true"><circle cx="12" cy="9" r="4" /><path d="M4 22c0-5 3.6-8 8-8s8 3 8 8z" /></svg>
+);
+
+/* ---- ホーム画面のアプリアイコン（64×64の絵。背景の色はCSS側） ---- */
+const teeth = [0, 45, 90, 135, 180, 225, 270, 315];
+
+export const AppGearIcon = () => (
+  <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
+    <g fill="#fff">
+      {teeth.map((a) => (
+        <rect key={a} x="27" y="9" width="10" height="13" rx="2.5" transform={`rotate(${a} 32 32)`} />
+      ))}
+      <path fillRule="evenodd" d="M32 16a16 16 0 1 0 0 32 16 16 0 1 0 0-32zM32 24.5a7.5 7.5 0 1 1 0 15 7.5 7.5 0 1 1 0-15z" />
+    </g>
+  </svg>
+);
+
+export const AppMailIcon = () => (
+  <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
+    <rect x="11" y="17" width="42" height="30" rx="6" fill="#fff" />
+    <path d="M15 22l17 13.5L49 22" fill="none" stroke="#2f80ed" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
 );
