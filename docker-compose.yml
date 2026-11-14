@@ -1,0 +1,32 @@
+# 手元の開発用。アプリ本体と、偽メールサーバー（Mailpit）を起動する。
+#   docker compose up --build
+#   アプリ:   http://localhost:3000
+#   受信箱:   http://localhost:8025  (確認コードのメールがここに届く)
+services:
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      SESSION_SECRET: ${SESSION_SECRET:-dev-only-change-me}
+      MAIL_DOMAIN: ${MAIL_DOMAIN:-muscat.example}
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+      DB_FILE: /app/data/app.db
+    volumes:
+      - appdata:/app/data
+      # コードを書き換えたらすぐ反映されるように、ソースを重ねる
+      - ./server:/app/server
+      - ./web:/app/web
+    command: ["node", "--watch", "server/index.js"]
+    depends_on:
+      - mailpit
+
+  mailpit:
+    image: axllent/mailpit
+    ports:
+      - "127.0.0.1:8025:8025"
+    # SMTP(1025) はコンテナの中だけで使うので、外には出さない
+
+volumes:
+  appdata:
